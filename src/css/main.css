@@ -1,0 +1,30 @@
+@import url("./navigation.css");
+@import url("./content.css");
+
+.documentation--main {
+  display: flex;
+  height: 100%;
+  position: relative;
+  font-family: "Roboto";
+}
+
+.documentation--main > .documentation--navigation, .documentation--main > .documentation--content {
+  display: flex;
+  flex-direction: column;
+  position: inherit;
+}
+
+.documentation--main > .documentation--navigation {
+  width: 340px;
+  flex-shrink: 0;
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f4f6f7;
+}
+
+.documentation--main > .documentation--content {
+  flex-grow: 1;
+  background: #dfe5e7;
+  padding: 10px;
+}
