@@ -1,17 +1,22 @@
 {
   "name": "@nodesecure/documentation-ui",
   "version": "1.0.0",
-  "description": "UI for NodeSecure tools (helps, flags etc).",
+  "description": "Portable UI for NodeSecure tools (guides on flags, security docs etc..)",
   "type": "module",
-  "exports": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && http-server ./dist",
-    "build": "node esbuild.config.js"
+    "example": "npm run example:build && http-server ./dist",
+    "example:build": "node esbuild.config.js"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "src"
   ],
+  "exports": {
+    ".": "./index.js",
+    "./node": "./src/nodejs/esm.js"
+  },
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NodeSecure/documentation-ui.git"
