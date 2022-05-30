@@ -1,13 +1,25 @@
-# Documentation-ui
-![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/NodeSecure/documentation-ui/master/package.json&query=$.version&label=Version)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/NodeSecure/documentation-ui/commit-activity)
-[![Security Responsible Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg)](https://github.com/nodejs/security-wg/blob/master/processes/responsible_disclosure_template.md
-)
-[![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/documentation-ui/blob/master/LICENSE)
+<p align="center"><h1 align="center">
+  🐤 Documentation UI 👀
+</h1>
 
+<p align="center">
+    <a href="https://www.npmjs.com/package/nsecure"><img src="https://img.shields.io/github/package-json/v/NodeSecure/documentation-ui?style=flat-square" alt="npm version"></a>
+    <a href="https://www.npmjs.com/package/nsecure"><img src="https://img.shields.io/github/license/NodeSecure/documentation-ui?style=flat-square" alt="license"></a>
+    <a href="./SECURITY.md"><img src="https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg?style=flat-square" alt="Responsible Disclosure Policy" /></a>
+</p>
+
+<p align="center">
+<img src="https://i.imgur.com/gsxB3eV.png">
+</p>
+
+## 📢 About
 Portable UI for NodeSecure tools like [CLI](https://github.com/NodeSecure/cli) or [Preview](https://github.com/NodeSecure/preview) (to show be able to show the same guides and documentation to all users whatever the tool they use).
 
-## Getting Started
+## 📜 Features
+
+- Render [NodeSecure flags](https://github.com/NodeSecure/flags/blob/main/FLAGS.md) using the package `@nodesecure/flags` and fetch HTML raw content on github.
+
+## 💃 Getting Started
 
 This package is available in the Node Package Repository and can be easily installed with [npm](https://docs.npmjs.com/getting-started/what-is-npm) or [yarn](https://yarnpkg.com).
 
@@ -17,7 +29,7 @@ $ npm i @nodesecure/documentation-ui
 $ yarn add @nodesecure/documentation-ui
 ```
 
-## Usage example
+## 👀 Usage example
 ```js
 // Import Third-party Dependencies
 import * as documentationUI from "@nodesecure/documentation-ui";
