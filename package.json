@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/NodeSecure/documentation-ui#readme",
   "dependencies": {
-    "@nodesecure/flags": "^2.2.0"
+    "@nodesecure/flags": "^2.3.0"
   },
   "devDependencies": {
     "@nodesecure/eslint-config": "^1.4.0",
