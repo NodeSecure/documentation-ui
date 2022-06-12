@@ -1,29 +1,36 @@
+@import url("./header.css");
 @import url("./navigation.css");
 @import url("./content.css");
 
 .documentation--main {
   display: flex;
-  height: 100%;
+  flex-direction: column;
   position: relative;
   font-family: "Roboto";
+  height: 100%;
 }
 
-.documentation--main > .documentation--navigation, .documentation--main > .documentation--content {
+.documentation--sub-container {
+  display: flex;
+  position: relative;
+  height: 100%;
+}
+
+.documentation--sub-container > .documentation--navigation, .documentation--sub-container > .documentation--content {
   display: flex;
   flex-direction: column;
   position: inherit;
 }
 
-.documentation--main > .documentation--navigation {
-  width: 340px;
+.documentation--sub-container > .documentation--navigation {
   flex-shrink: 0;
+  width: 340px;
   padding: 10px;
-  overflow-x: hidden;
+  background: #f4f6f7;
   overflow-y: auto;
-  background-color: #f4f6f7;
 }
 
-.documentation--main > .documentation--content {
+.documentation--sub-container > .documentation--content {
   flex-grow: 1;
   background: #dfe5e7;
   padding: 10px;
