@@ -77,5 +77,5 @@ export async function fetchAndRenderByMenu(menuElement, kind = "flags") {
   );
 
   const documentContentElement = document.querySelector(`.documentation--${kind} .${CONSTANTS.DIV_CONTENT}`);
-  documentContentElement.innerHTML = htmlResponse;
+  documentContentElement.innerHTML = kind === "flags" ? htmlResponse : `<div>${htmlResponse}</div>`;
 }

@@ -3,14 +3,10 @@ import { getManifest } from "@nodesecure/flags/web";
 
 // Import Internal Dependencies
 import * as utils from "./src/utils.js";
-import { fetchNodeSecureFlagByTitle, fetchAndRenderByMenu } from "./src/fetch.js";
-
-export const VARS = Object.seal({
-  /** @type {HTMLElement} */
-  activeFlagsMenu: null,
-  /** @type {HTMLElement} */
-  activeWarningsMenu: null
-});
+import * as CONSTANTS from "./src/constants.js";
+import { Header } from "./src/components/header.js";
+import { Navigation } from "./src/components/navigation.class.js";
+import { fetchAndRenderByMenu } from "./src/fetch.js";
 
 // CONSTANTS
 const kSASTWarnings = [
@@ -24,91 +20,75 @@ const kSASTWarnings = [
   "suspicious-literal",
   "obfuscated-code",
   "weak-crypto"
-];
+].map((name) => ({ name }));
+
+const kWikiMenus = {
+  flags: {
+    name: "Flags",
+    data: Object.entries(getManifest()).map(([name, { title, emoji }]) => ({ name, title, icon: emoji })),
+    callback(name, menuElement) {
+      fetchAndRenderByMenu(menuElement, "flags").catch(console.error);
+    }
+  },
+  warnings: {
+    name: "SAST Warnings",
+    data: kSASTWarnings,
+    callback(name, menuElement) {
+      fetchAndRenderByMenu(menuElement, "warnings").catch(console.error);
+    }
+  }
+};
+
+const kHeaderMenus = Object.entries(kWikiMenus)
+  .map(([title, { name }]) => ({ name, title }));
 
 /**
  * @description Render the documentation module in a given container
  * @param {!HTMLElement} rootElement
  * @param {object} [options]
- * @param {string} [options.defaultFlagName]
- * @param {boolean} [options.preCacheAllFlags=true]
- * @returns {void}
+ * @param {boolean} [options.prefetch=false]
  */
 export function render(rootElement, options = {}) {
-  const { preCacheAllFlags = false, defaultFlagName = null } = options;
+  const { prefetch = false } = options;
 
-  /**
-   * Generate the left side navigation menu for NodeSecure flags
-   */
-  const flagsNavFragment = document.createDocumentFragment();
-  for (const [emojiName, emojiParameters] of Object.entries(getManifest())) {
-    if (preCacheAllFlags) {
-      fetchNodeSecureFlagByTitle(emojiParameters.title).catch(console.error);
+  const navigation = {};
+  const containers = [];
+  for (const [name, properties] of Object.entries(kWikiMenus)) {
+    const nav = new Navigation({
+      prefetch,
+      fetchCallback: properties.callback
+    });
+    navigation[name] = nav;
+
+    const container = utils.createDOMElement("div", {
+      classList: [`documentation--${name}`, "documentation--sub-container"],
+      childs: [
+        utils.createDOMElement("div", {
+          className: CONSTANTS.DIV_NAVIGATION,
+          childs: [nav.generateFromIterable(properties.data)]
+        }),
+        utils.createDOMElement("div", { className: CONSTANTS.DIV_CONTENT })
+      ]
+    });
+    if (containers.length > 0) {
+      container.style.display = "none";
     }
 
-    const menu = utils.createNavigationMenu(emojiName, emojiParameters);
-    menu.addEventListener("click", () => setFlagsNavigationMenu(menu));
-
-    if (VARS.activeFlagsMenu === null && (defaultFlagName === null || defaultFlagName === emojiName)) {
-      VARS.activeFlagsMenu = menu;
-      menu.classList.add("active");
-    }
-    flagsNavFragment.appendChild(menu);
+    containers.push(container);
   }
-  fetchAndRenderByMenu(VARS.activeFlagsMenu, "flags").catch(console.error);
 
-  /**
-   * Generate the left side navigation menu for NodeSecure SAST Warnings
-   */
-  const warningsNavFragment = document.createDocumentFragment();
-  for (const warningName of kSASTWarnings) {
-    const menu = utils.createNavigationMenu(warningName, { title: warningName, emoji: "" });
-    menu.addEventListener("click", () => setWarningsNavigationMenu(menu));
-    if (VARS.activeWarningsMenu === null) {
-      VARS.activeWarningsMenu = menu;
-      menu.classList.add("active");
-    }
-
-    warningsNavFragment.appendChild(menu);
-  }
-  fetchAndRenderByMenu(VARS.activeWarningsMenu, "warnings").catch(console.error);
-
-  const mainContainer = utils.createMainContainer({
-    flagsNavFragment,
-    warningsNavFragment
+  const header = new Header(kHeaderMenus, { defaultName: "flags" });
+  const mainContainer = utils.createDOMElement("div", {
+    className: "documentation--main", childs: [header.dom, ...containers]
   });
+
   for (const node of rootElement.childNodes) {
     node.remove();
   }
   rootElement.appendChild(mainContainer);
-}
 
-/**
- * @param {!HTMLElement} menu
- */
-function setFlagsNavigationMenu(menu) {
-  if (menu === VARS.activeFlagsMenu) {
-    return;
-  }
-
-  VARS.activeFlagsMenu.classList.remove("active");
-  menu.classList.add("active");
-  VARS.activeFlagsMenu = menu;
-
-  fetchAndRenderByMenu(VARS.activeFlagsMenu, "flags").catch(console.error);
-}
-
-/**
- * @param {!HTMLElement} menu
- */
-function setWarningsNavigationMenu(menu) {
-  if (menu === VARS.activeWarningsMenu) {
-    return;
-  }
-
-  VARS.activeWarningsMenu.classList.remove("active");
-  menu.classList.add("active");
-  VARS.activeWarningsMenu = menu;
-
-  fetchAndRenderByMenu(VARS.activeWarningsMenu, "warnings").catch(console.error);
+  return {
+    header,
+    navigation
+  };
 }
