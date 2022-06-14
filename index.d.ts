@@ -1,5 +1,20 @@
-// Import Third-party Dependencies
-import { Flags } from "@nodesecure/flags";
+declare class Header {
+  active: HTMLElement;
+  views: Map<string, HTMLElement>;
+  defaultName: string | null;
+
+  setNewActiveView(name: string): void;
+}
+
+declare class Navigation {
+  active: HTMLElement;
+  menus: Map<string, HTMLElement>;
+  defaultName: string | null;
+  prefetch: boolean;
+  fetchCallback: (name: string, menu: HTMLElement) => any;
+
+  setNewActiveMenu(name: string): void;
+}
 
 export interface RenderDocumentationUIOptions {
   /**
@@ -7,15 +22,15 @@ export interface RenderDocumentationUIOptions {
    *
    * @default true
    */
-  preCacheAllFlags?: boolean;
-  /**
-   * The default NodeSecure flag to load (the first one by default if none selected).
-   */
-  defaultFlagName?: Flags;
+  prefetch?: boolean;
 }
 
-export function render(rootElement: HTMLElement, options: RenderDocumentationUIOptions): void;
+export interface RenderResult {
+  header: Header;
+  navigation: {
+    flags: Navigation;
+    warnings: Navigation;
+  }
+}
 
-export const VARS: {
-  activeFlagsMenu: HTMLElement;
-};
+export function render(rootElement: HTMLElement, options: RenderDocumentationUIOptions): RenderResult;

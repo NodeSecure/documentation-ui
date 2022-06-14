@@ -1,5 +1,5 @@
 <p align="center"><h1 align="center">
-  🐤 Documentation UI 👀
+  🐤 Documentation and Wiki UI 👀
 </h1>
 
 <p align="center">
@@ -9,15 +9,19 @@
 </p>
 
 <p align="center">
-<img src="https://i.imgur.com/gsxB3eV.png">
+<img src="https://i.imgur.com/Bo21VnK.png">
 </p>
 
 ## 📢 About
-Portable UI for NodeSecure tools like [CLI](https://github.com/NodeSecure/cli) or [Preview](https://github.com/NodeSecure/preview) (to show be able to show the same guides and documentation to all users whatever the tool they use).
+Portable documentation/wiki UI for NodeSecure tools like [CLI](https://github.com/NodeSecure/cli) or [Preview](https://github.com/NodeSecure/preview). This package has been designed with the objective of rendering the same documentation to all developers whatever the tool they use.
 
 ## 📜 Features
 
-- Render [NodeSecure flags](https://github.com/NodeSecure/flags/blob/main/FLAGS.md) using the package `@nodesecure/flags` and fetch HTML raw content on github.
+- Render [NodeSecure flags](https://github.com/NodeSecure/flags/blob/main/FLAGS.md) using the package `@nodesecure/flags`.
+- Render [NodeSecure JS-X-RAY SAST Warnings](https://github.com/NodeSecure/js-x-ray).
+- Written in vanilla.js for maximum performance.
+
+> **Note** The content is retrieved from the github API (and sometimes it transform raw markdown response to HTML, that's why we use [markdown-it](https://github.com/markdown-it/markdown-it#readme) as dependency).
 
 ## 💃 Getting Started
 
@@ -37,9 +41,15 @@ import * as documentationUI from "@nodesecure/documentation-ui";
 document.addEventListener("DOMContentLoaded", async() => {
   const documentRootElement = document.getElementById("whatever-you-want");
 
-  documentationUI.render(documentRootElement, {
-    preCacheAllFlags: true
+  const wiki = documentationUI.render(documentRootElement, {
+    prefetch: true
   });
+
+  console.log(`Available views: ${[...wiki.header.views.keys()].join(",")}`);
+  wiki.header.setNewActiveView("warnings");
+
+  // Note: you can also enumerate menus with `wiki.navigation.warnings.menus.keys()`
+  wiki.navigation.warnings.setNewActiveMenu("unsafe-stmt");
 });
 ```
 
@@ -51,11 +61,7 @@ export interface RenderDocumentationUIOptions {
    *
    * @default true
    */
-  preCacheAllFlags?: boolean;
-  /**
-   * The default NodeSecure flag to load (the first one by default if none selected).
-   */
-  defaultFlagName?: Flags;
+  prefetch?: boolean;
 }
 ```
 
@@ -79,17 +85,42 @@ await esbuild.build({
 
 ## API
 
-### render(rootElement: HTMLElement, options: RenderDocumentationUIOptions): void;
-Render the documentation in the given
+### render(rootElement: HTMLElement, options: RenderDocumentationUIOptions): RenderResult;
+Render the documentation in the given root element.
 
-### VARS
-You can retrieve the active menu at any time
-
-```js
-import * as documentationUI from "@nodesecure/documentation-ui";
-
-console.log(documentationUI.VARS.activeFlagsMenu);
+```ts
+export interface RenderResult {
+  header: Header;
+  navigation: {
+    flags: Navigation;
+    warnings: Navigation;
+  }
+}
 ```
+
+<details><summary>Header & Navigation definition</summary>
+
+```ts
+class Header {
+  active: HTMLElement;
+  views: Map<string, HTMLElement>;
+  defaultName: string | null;
+
+  setNewActiveView(name: string): void;
+}
+
+class Navigation {
+  active: HTMLElement;
+  menus: Map<string, HTMLElement>;
+  defaultName: string | null;
+  prefetch: boolean;
+  fetchCallback: (name: string, menu: HTMLElement) => any;
+
+  setNewActiveMenu(name: string): void;
+}
+```
+
+</details>
 
 ## How to contribute/work on this project
 You can use the local `example/` to work on any updates. Just use the `example` npm script:
