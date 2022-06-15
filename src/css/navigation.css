@@ -53,23 +53,9 @@
   color: #37474F;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1600px) {
   .documentation--warnings .documentation--navigation  {
     width: auto !important;
-  }
-
-  .documentation--flags .documentation--navigation {
-    flex-wrap: wrap;
-    width: 120px;
-    align-items: center;
-  }
-
-  .documentation--flags .navigation--item {
-    flex-basis: 50px;
-    margin-bottom: 10px;
-  }
-  .documentation--flags .navigation--item+.navigation--item {
-    margin-top: 0px;
   }
 
   .documentation--flags .navigation--item>p.icon {
