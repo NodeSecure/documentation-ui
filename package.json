@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/NodeSecure/documentation-ui#readme",
   "dependencies": {
-    "@nodesecure/flags": "^2.3.0",
+    "@nodesecure/flags": "^2.4.0",
     "markdown-it": "^13.0.1"
   },
   "devDependencies": {
