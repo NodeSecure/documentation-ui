@@ -5,7 +5,6 @@
 <p align="center">
     <a href="https://www.npmjs.com/package/nsecure"><img src="https://img.shields.io/github/package-json/v/NodeSecure/documentation-ui?style=flat-square" alt="npm version"></a>
     <a href="https://www.npmjs.com/package/nsecure"><img src="https://img.shields.io/github/license/NodeSecure/documentation-ui?style=flat-square" alt="license"></a>
-    <a href="./SECURITY.md"><img src="https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg?style=flat-square" alt="Responsible Disclosure Policy" /></a>
 </p>
 
 <p align="center">
