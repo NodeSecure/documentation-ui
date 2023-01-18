@@ -4,13 +4,13 @@
 
 <p align="center">
     <a href="https://www.npmjs.com/package/nsecure">
-      <img src="https://img.shields.io/github/package-json/v/NodeSecure/documentation-ui?style=flat-square" alt="npm version">
+      <img src="https://img.shields.io/github/package-json/v/NodeSecure/documentation-ui?style=for-the-badge" alt="npm version">
     </a>
     <a href="https://www.npmjs.com/package/nsecure">
-      <img src="https://img.shields.io/github/license/NodeSecure/documentation-ui?style=flat-square" alt="license">
+      <img src="https://img.shields.io/github/license/NodeSecure/documentation-ui?style=for-the-badge" alt="license">
     </a>
     <a href="https://api.securityscorecards.dev/projects/github.com/NodeSecure/documentation-ui">
-      <img src="https://api.securityscorecards.dev/projects/github.com/NodeSecure/documentation-ui/badge" alt="ossf scorecard">
+      <img src="https://api.securityscorecards.dev/projects/github.com/NodeSecure/documentation-ui/badge?style=for-the-badge" alt="ossf scorecard">
     </a>
 </p>
 
@@ -19,6 +19,7 @@
 </p>
 
 ## 📢 About
+
 Portable documentation/wiki UI for NodeSecure tools like [CLI](https://github.com/NodeSecure/cli) or [Preview](https://github.com/NodeSecure/preview). This package has been designed with the objective of rendering the same documentation to all developers whatever the tool they use.
 
 ## 📜 Features
@@ -40,15 +41,16 @@ $ yarn add @nodesecure/documentation-ui
 ```
 
 ## 👀 Usage example
+
 ```js
 // Import Third-party Dependencies
 import * as documentationUI from "@nodesecure/documentation-ui";
 
-document.addEventListener("DOMContentLoaded", async() => {
+document.addEventListener("DOMContentLoaded", async () => {
   const documentRootElement = document.getElementById("whatever-you-want");
 
   const wiki = documentationUI.render(documentRootElement, {
-    prefetch: true
+    prefetch: true,
   });
 
   console.log(`Available views: ${[...wiki.header.views.keys()].join(",")}`);
@@ -60,6 +62,7 @@ document.addEventListener("DOMContentLoaded", async() => {
 ```
 
 The `render` API take an options payload describe by the following TS interface:
+
 ```ts
 export interface RenderDocumentationUIOptions {
   /**
@@ -72,6 +75,7 @@ export interface RenderDocumentationUIOptions {
 ```
 
 ### Fetch assets required for the bundler
+
 An incomplete example for esbuild.
 
 ```js
@@ -83,15 +87,14 @@ import esbuild from "esbuild";
 const { entryPoints } = getBuildConfiguration();
 
 await esbuild.build({
-  entryPoints: [
-    ...entryPoints
-  ]
+  entryPoints: [...entryPoints],
 });
 ```
 
 ## API
 
 ### render(rootElement: HTMLElement, options: RenderDocumentationUIOptions): RenderResult;
+
 Render the documentation in the given root element.
 
 ```ts
@@ -100,7 +103,7 @@ export interface RenderResult {
   navigation: {
     flags: Navigation;
     warnings: Navigation;
-  }
+  };
 }
 ```
 
@@ -129,6 +132,7 @@ class Navigation {
 </details>
 
 ## How to contribute/work on this project
+
 You can use the local `example/` to work on any updates. Just use the `example` npm script:
 
 ```bash
@@ -146,7 +150,9 @@ $ npm run example
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -166,4 +172,5 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## License
+
 MIT
