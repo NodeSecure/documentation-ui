@@ -14,7 +14,6 @@ const kSASTWarnings = [
   "unsafe-import",
   "unsafe-regex",
   "unsafe-stmt",
-  "unsafe-assign",
   "encoded-literal",
   "short-identifiers",
   "suspicious-literal",
